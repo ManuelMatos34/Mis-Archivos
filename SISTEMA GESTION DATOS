@@ -1,0 +1,221 @@
+#AUTOR: Manuel Matos
+#MATRICULA: 19-1597
+
+import mysql.connector
+
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  password="SONIDOmg1",
+  database="akademia"
+)
+
+mycursor = mydb.cursor()
+
+print()
+print('==================================')
+print('=============SISTEMA==============')
+print('=============GESTION==============')
+print("==============DATOS===============")
+print('==========UNIVERSITARIOS==========')
+print('==================================')
+print()
+
+
+print("        .:::<>OPCIONES<>:::.")
+print("1. Registrarse")
+print("2. Iniciar Sesion")
+print("5. Salir")
+opcion = int(input("Elige una opcion: "))
+
+if opcion==1:        
+    print("\nINGRESE UN USUARIO Y UNA CONTRASEÑA PARA REGISTRARSE \n")
+    usuario= input("Ingrese su usuario: ")
+    contraseña= input("Ingrese su contraseña: ")
+    print("SE HA REGISTRADO SATISFACTORIAMENTE!!")
+    consulta= "insert into loginone (Usuarios, Contraseñas) values (%s,%s);"
+    mycursor.execute(consulta,(usuario, contraseña))
+    mydb.commit()
+    print(mycursor.rowcount, "SUS DATOS YA SE HAN GUARDADO EN NUESTRA BASE DE DATOS")    
+
+if opcion==2:
+    print('\nINGRESE UN USUARIO Y UNA CONTRASEÑA PARA INICIAR SESION\n')
+    usuarioX= input("Ingrese su usuario: ")
+    contraseñaX= input("Ingrese su contraseña: ")
+    consultaX=("Select Usuarios, Contraseñas from loginone where Usuarios=%s and Contraseñas=%s")
+    mycursor.execute(consultaX, (usuarioX, contraseñaX))
+
+    respuestaY= mycursor.fetchall()
+
+    if respuestaY:
+        for Y in respuestaY:
+            print("\nBIENVENIDO A NUESTRO SISTEMA ")
+            print("        +++INICIO+++")
+            print()
+            print("     QUE DESEAS REALIZAR? ")
+            print("1. Gestionar Estudiantes")
+            print("2. Gestionar Profesores")
+            print("3. Gestionar Carreras")
+            print("4. Gestionar Materias")
+            opcion = int(input("Elige una opcion: "))
+            print()
+    
+            if opcion==1:   
+                print("    GESTION DE ESTUDIANTES")  
+                print()
+                print("     QUE DESEAS REALIZAR? ")
+                print("1. Registrar Estudiante")
+                print("2. Eliminar Estudiante")
+                print("3. Lista de Estudiantes")
+                opcion = int(input("Elige una opcion: "))
+                
+                if opcion==1:
+                    print("\nREGISTRAR ESTUDIANTE \n")
+                    usuarioB= input("Ingrese el Nombre : ")
+                    contraseñaB= input("Ingrese el Apellido: ")
+                    telefonoB= input("Ingrese el Telefono: ")
+                    print("SE HA REGISTRADO SATISFACTORIAMENTE!!")
+                    consultaB= "insert into estudiantes (Nombre, Apellido, Telefono) values (%s,%s,%s);"
+                    mycursor.execute(consultaB,(usuarioB, contraseñaB, telefonoB))
+                    mydb.commit()
+                    print(mycursor.rowcount, "SUS DATOS YA SE HAN GUARDADO EN NUESTRA BASE DE DATOS")
+                
+                elif opcion==2:
+                    print("\nELIMINAR ESTUDIANTE \n")
+                    usuarioF= input("Ingrese el nombre del estudiante que desea eliminar : ")
+                    apellidoF=input("Ingrese el apellido completo del estudiante que desea eliminar : ")
+                    consultaF= "DELETE FROM estudiantes WHERE Nombre = %s AND Apellido = %s"
+                    valoresF=(usuarioF, apellidoF) 
+                    mycursor.execute(consultaF, valoresF)
+                    mydb.commit()
+                    print(mycursor.rowcount, "EL ESTUDIANTE HA SIDO ELIMINADO CORRECTAMENTE")
+
+                elif opcion==3:
+                    print("\n LISTA DE ESTUDIANTES \n")
+                    mycursor.execute("SELECT Nombre, Apellido FROM estudiantes")
+                    respuestaP= mycursor.fetchall()
+                    for row in respuestaP:
+                        print(row)
+
+            if opcion==2:
+                print("    GESTION DE PROFESORES")  
+                print()
+                print("     QUE DESEAS REALIZAR? ")
+                print("1. Resgistrar profesor")
+                print("2. Eliminar profesor")
+                print("3. Lista de profesores")
+                opcion = int(input("Elige una opcion: "))
+                
+                if opcion==1:
+                    print("\nREGISTRAR PROFESOR \n")
+                    usuarioT= input("Ingrese el Nombre : ")
+                    contraseñaT= input("Ingrese el Apellido: ")
+                    telefonoT= input("Ingrese el Telefono: ")
+                    print("SE HA REGISTRADO SATISFACTORIAMENTE!!")
+                    consultaT= "insert into profesores (Nombre, Apellido, Telefono) values (%s,%s,%s);"
+                    mycursor.execute(consultaT,(usuarioT, contraseñaT, telefonoT))
+                    mydb.commit()
+                    print(mycursor.rowcount, "SUS DATOS YA SE HAN GUARDADO EN NUESTRA BASE DE DATOS")
+                
+                elif opcion==2:
+                    print("\nELIMINAR PROFESOR \n")
+                    usuarioI= input("Ingrese el nombre del profesor que desea eliminar : ")
+                    apellidoI=input("Ingrese el apellido del profesor que desea eliminar : ")
+                    consultaI= "DELETE FROM profesores WHERE Nombre = %s AND Apellido = %s"
+                    valoresI=(usuarioI, apellidoI) 
+                    mycursor.execute(consultaI, valoresI)
+                    mydb.commit()
+                    print(mycursor.rowcount, "EL PROFESOR HA SIDO ELIMINADO CORRECTAMENTE")
+
+                elif opcion==3:
+                    print("\n LISTA DE PROFESORES \n")
+                    mycursor.execute("SELECT Nombre FROM profesores")
+                    respuestaI= mycursor.fetchall()
+                    for row in respuestaI:
+                        print(row)
+
+            if opcion==3:
+                print("    GESTION DE CARRERAS")  
+                print()
+                print("     QUE DESEAS REALIZAR? ")
+                print("1. Resgistrar Carrera")
+                print("2. Eliminar Carrera")
+                print("3. Lista de Carrera")
+                opcion = int(input("Elige una opcion: "))
+                
+                if opcion==1:
+                    print("\nREGISTRAR CARRERA \n")
+                    usuarioT= input("Ingrese el nombre de la carrera : ")
+                    usuT= input("Ingrese el id de la carrera : ")
+                    print("SE HA REGISTRADO SATISFACTORIAMENTE!!")
+                    consultaT= "INSERT INTO carreras (idcarreras, Nombre) VALUES (%s, %s);"
+                    mycursor.execute(consultaT,(usuT, usuarioT))
+                    mydb.commit()
+                    print(mycursor.rowcount, "SUS DATOS YA SE HAN GUARDADO EN NUESTRA BASE DE DATOS")
+                
+                elif opcion==2:
+                    print("\nELIMINAR CARRERA \n")
+                    usuarioI= input("Ingrese el nombre de la carrera que desea eliminar : ")
+                    usuI=input("Ingrese el id de la carrera que desea eliminar : ")
+                    consultaI= "DELETE FROM carreras WHERE idcarreras = %s AND Nombre = %s"
+                    valoresI=(usuI, usuarioI) 
+                    mycursor.execute(consultaI, valoresI)
+                    mydb.commit()
+                    print(mycursor.rowcount, "LA CARRERA HA SIDO ELIMINADA CORRECTAMENTE")
+
+                elif opcion==3:
+                    print("\n LISTA DE CARRERAS \n")
+                    mycursor.execute("SELECT idcarreras, Nombre FROM carreras")
+                    respuestaS= mycursor.fetchall()
+                    for row in respuestaS:
+                        print(row)
+
+            if opcion==4:
+                print("    GESTION DE MATERIAS")  
+                print()
+                print("     QUE DESEAS REALIZAR? ")
+                print("1. Resgistrar Materia")
+                print("2. Eliminar Materia")
+                print("3. Lista de Materias")
+                opcion = int(input("Elige una opcion: "))
+                
+                if opcion==1:
+                    print("\nREGISTRAR MATERIAS \n")
+                    usuarioG= input("Ingrese el nombre de la materia : ")
+                    usuG= input("Ingrese el codigo de la materia : ")
+                    area=input("Ingrese el area de la materia: ")
+                    print("SE HA REGISTRADO SATISFACTORIAMENTE!!")
+                    consultaG= "INSERT INTO materias (Codigo, Materias, Areas) VALUES (%s, %s, %s);"
+                    mycursor.execute(consultaG,(usuG, usuarioG, area))
+                    mydb.commit()
+                    print(mycursor.rowcount, "SUS DATOS YA SE HAN GUARDADO EN NUESTRA BASE DE DATOS")
+                
+                elif opcion==2:
+                    print("\nELIMINAR MATERIAS \n")
+                    usuarioU= input("Ingrese el nombre de la materia que desea eliminar : ")
+                    usuU=input("Ingrese el codigo de la materia que desea eliminar : ")
+                    consultaU= "DELETE FROM materias WHERE Codigo = %s AND Materias = %s"
+                    valoresU=(usuU, usuarioU) 
+                    mycursor.execute(consultaU, valoresU)
+                    mydb.commit()
+                    print(mycursor.rowcount, "LA MATERIA HA SIDO ELIMINADA CORRECTAMENTE")
+
+                elif opcion==3:
+                    print("\n LISTA DE MATERIAS \n")
+                    mycursor.execute("SELECT Codigo, Materias FROM materias")
+                    respuestaU= mycursor.fetchall()
+                    for row in respuestaU:
+                        print(row)
+
+
+    else:
+        print()
+        print("EL USUARIO O LA CONTRASEÑA SON INCORRECTOS")
+        print("     HAS SIDO EXPULDADO DEL SISTEMA")
+        print()
+
+
+if opcion==5:
+    print()
+    print("HAS SALIDO SATISFACTORIAMENTE!!")
+    print()
